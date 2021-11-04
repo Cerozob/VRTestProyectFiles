@@ -37,11 +37,10 @@ Se le muestra al usuario un texto con la lista de ingredientes y se le presentan
 @
 [[Agregar aceite a la sarten]]
 {
-btnEmpezar.Touched()	
 }
 <
-GameController.CargarEscena("Hamburguesa")
-GameController.UpdateTxtPasos("1")
+GameController.CargarRecetaHamburguesa()
+Simulator.Wait(3)
 >
 
 :: BtnRecetaPizza.Touched():Receta Pizza
@@ -72,11 +71,10 @@ Se le pide al usuario que agregue aceite a la sarten. La experiencia no continua
 @
 [[Agregar carne a la sarten]]
 {
-Simulator.ShowReminder(10;"Sarten")
+Simulator.ShowReminder(4;AceiteHamburguesa;"")
 Sarten.AgregoAceite()
 }
 <
-GameController.UpdateTxtPasos("2")
 >
 
 
@@ -110,11 +108,10 @@ Se le pide al usuario que agregue la carne a la sarten. La experiencia no contin
 @
 [[Cortar verduras]]
 {
-Simulator.ShowReminder(10;"carne")
-Sarten.AgregoCarne()
+Simulator.ShowReminder(4;carneHamburguesa;"")
+Sarten.AgregoCarneHamburguesa()
 }
 <
-GameController.UpdateTxtPasos("3")
 >
 
 :: Cortar verduras[reminder]
@@ -122,7 +119,7 @@ Se le pide al usuario que corte la lechuga, el tomate y la cebolla. La experienc
 @
 [[Construir Hamburguesa]]
 {
-Simulator.ShowReminder(10;"cuchillo")
+Simulator.ShowReminder(10;Cuchillo;"")
 Cuchillo.CortoVerdurasHamburguesa()
 }
 <
@@ -134,11 +131,10 @@ Se le pide al usuario que construya la hamburguesa juntando todos los ingredient
 @
 [[Fin]]
 {
-Simulator.ShowReminder(10;"plato")
-Plato.AgregoIngredientesHamburguesa()
+Simulator.ShowReminder(5;Pan;"")
+Pan.AgregoIngredientesHamburguesa()
 }
 <
-GameController.UpdateTxtPasos("Fin")
 >
 
 :: Fin[END dialogue]

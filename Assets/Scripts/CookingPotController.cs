@@ -21,6 +21,8 @@ public class CookingPotController : MonoBehaviour
     public GameObject onionReady;
     public GameObject garlicReady;
     public GameObject meatReady;
+    public GameObject ingredientesTernera;
+    public GameObject ingredientesHamburguesa;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,59 +59,84 @@ public class CookingPotController : MonoBehaviour
     {
         GameObject.Find("SimulationController").GetComponent<SimulationController>().VerifyUserAction(new SimulationObject.Action(gameObject.name, "AgregoAceite", ""));
     }
+    public void AgregoCarneHamburguesa()
+    {
+        GameObject.Find("SimulationController").GetComponent<SimulationController>().VerifyUserAction(new SimulationObject.Action(gameObject.name, "AgregoCarneHamburguesa", ""));
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (oil)
-        {         
-            if (collision.gameObject.name == "Mushrooms")
+        if (ingredientesTernera.activeSelf == true)
+        {
+            if (oil)
             {
-                if (collision.gameObject.transform.Find("ChoppedMushrooms").gameObject.activeSelf)
+                if (collision.gameObject.name == "Mushrooms")
                 {
-                    choppedMushrooms = true;
-                    mushroomsReady.SetActive(true);
-                    GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateMushroom");
-                    foreach (GameObject toDeactivate in toDeactivateObjects)
+                    if (collision.gameObject.transform.Find("ChoppedMushrooms").gameObject.activeSelf)
                     {
-                        toDeactivate.SetActive(false);
-                    }              
+                        choppedMushrooms = true;
+                        mushroomsReady.SetActive(true);
+                        GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateMushroom");
+                        foreach (GameObject toDeactivate in toDeactivateObjects)
+                        {
+                            toDeactivate.SetActive(false);
+                        }
+                    }
                 }
-            }
-            else if (collision.gameObject.name == "Onion")
-            {
-                if (collision.gameObject.transform.Find("ChoppedOnion").gameObject.activeSelf)
+                else if (collision.gameObject.name == "Onion")
                 {
-                    choppedOnion = true;
-                    onionReady.SetActive(true);
-                    GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateOnion");
+                    if (collision.gameObject.transform.Find("ChoppedOnion").gameObject.activeSelf)
+                    {
+                        choppedOnion = true;
+                        onionReady.SetActive(true);
+                        GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateOnion");
+                        foreach (GameObject toDeactivate in toDeactivateObjects)
+                        {
+                            toDeactivate.SetActive(false);
+                        }
+                    }
+                }
+                else if (collision.gameObject.name == "Garlic")
+                {
+                    if (collision.gameObject.transform.Find("ChoppedGarlic").gameObject.activeSelf)
+                    {
+                        choppedGarlic = true;
+                        garlicReady.SetActive(true);
+                        GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateGarlic");
+                        foreach (GameObject toDeactivate in toDeactivateObjects)
+                        {
+                            toDeactivate.SetActive(false);
+                        }
+                    }
+                }
+                else if (collision.gameObject.name == "Meat")
+                {
+                    meatAdded = true;
+                    meatReady.SetActive(true);
+                    GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateMeat");
                     foreach (GameObject toDeactivate in toDeactivateObjects)
                     {
                         toDeactivate.SetActive(false);
                     }
+
                 }
             }
-            else if (collision.gameObject.name == "Garlic")
+        }
+        else if (ingredientesHamburguesa.activeSelf == true)
+        {
+            if(oil)
             {
-                if (collision.gameObject.transform.Find("ChoppedGarlic").gameObject.activeSelf)
+                if(collision.gameObject.name == "carneHamburguesa")
                 {
-                    choppedGarlic = true;
-                    garlicReady.SetActive(true);
-                    GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateGarlic");
+                    AgregoCarneHamburguesa();
+                    meatReady.SetActive(true);
+                    GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateMeat");
                     foreach (GameObject toDeactivate in toDeactivateObjects)
                     {
                         toDeactivate.SetActive(false);
                     }
+                    textPlayer.text = "Excelente, a continuación vamos a cortar la cebolla, el tomate y la lechuga";
                 }
-            }
-            else if (collision.gameObject.name == "Meat")
-            {           
-                meatAdded = true;
-                meatReady.SetActive(true);
-                GameObject[] toDeactivateObjects = GameObject.FindGameObjectsWithTag("DeactivateMeat");
-                foreach (GameObject toDeactivate in toDeactivateObjects)
-                {
-                    toDeactivate.SetActive(false);
-                }
-                
             }
         }
     }
@@ -118,24 +145,36 @@ public class CookingPotController : MonoBehaviour
     {
         Debug.Log("PARTICLE DETECTED");
         Debug.Log(other.name);
-        if(other.name == "Oil")
+        if (ingredientesTernera.activeSelf == true)
         {
-            AgregoAceite();
-            oil = true;
-            textPlayer.text = "Muy bien, ahora que el aceite se esta calentando, podemos empezar a cortar los champiñones, el ajo y la cebolla e irlos agregando a la sarten";
-        }
-        else if (other.name == "Salt" )
-        {
-            salt = true;
+            if (other.name == "Oil")
+            {
+                AgregoAceite();
+                oil = true;
+                textPlayer.text = "Muy bien, ahora que el aceite se esta calentando, podemos empezar a cortar los champiñones, el ajo y la cebolla e irlos agregando a la sarten";
+            }
+            else if (other.name == "Salt")
+            {
+                salt = true;
 
+            }
+            else if (other.name == "ChiliPowder")
+            {
+                chiliPowder = true;
+            }
+            else if (other.name == "Soy")
+            {
+                soySauce = true;
+            }
         }
-        else if (other.name == "ChiliPowder")
+        else if(ingredientesHamburguesa.activeSelf == true)
         {
-            chiliPowder = true;
-        }
-        else if (other.name == "Soy")
-        {
-            soySauce = true;
+            if (other.name == "Oil")
+            {
+                AgregoAceite();
+                oil = true;
+                textPlayer.text = "Muy bien, ahora que el aceite se esta calentando, es hora de ingresar la carne en la sartén";
+            }
         }
     }
 }

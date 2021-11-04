@@ -8,11 +8,11 @@ public class GameController : MonoBehaviour
     public Text textoInstrucciones;
     public GameObject listaRecetas;
     public GameObject ingredientesTernera;
-   
+    public GameObject ingredientesHamburguesa;
     // Start is called before the first frame update
     void Start()
     {
-        
+        textoInstrucciones.text = "¡Bienvenido! Aquí podras aprender diferentes recetas";
     }
     public void DisplayRecetas()
     {
@@ -26,6 +26,14 @@ public class GameController : MonoBehaviour
         textoInstrucciones.text = "Vamos a cocinar ternera picante, lo primero es agregar aceite a la sarten";
 
     }
+
+    public void CargarRecetaHamburguesa()
+    {
+        listaRecetas.gameObject.SetActive(false);
+        ingredientesHamburguesa.gameObject.SetActive(true);
+        textoInstrucciones.text = "Vamos a cocinar una hamburguesa, lo primero es agregar aceite a la sarten";
+    }
+    
     // Update is called once per frame
     void Update()
     {
